@@ -20,7 +20,7 @@ var puppeteerContainer: any; // puppeteer page object
 hostRoomConfig = { //default init
     roomName: "haxball-hotsmall-challange test room",
     playerName: "🤖",
-    password: "hsc",
+    password: "",
     maxPlayers: 8,
     public: true,
     token: "", //token key from runtime arguments
@@ -82,7 +82,7 @@ async function makeBot(hostConfig: any) {
 
     const browser = await puppeteer.launch({
         headless: isOpenHeadless,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-features=WebRtcHideLocalIpsWithMdns']
     });
 
     await browser.on('disconnected', () => {
