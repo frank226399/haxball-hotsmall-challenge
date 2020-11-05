@@ -1,6 +1,6 @@
-# haxball-hotsmall-challange
+# haxball-hotsmall-challenge
 
-Haxball bot for power HotSmall Challange.
+Haxball bot for power HotSmall Challenge.
 
 ## Features
 You can power headless game host for haxball with hotsmall map.
@@ -28,7 +28,7 @@ Then, you can launch your own game room.
 [Haxbotron](https://github.com/dapucita/haxbotron) GUI-based bot application
 
 ## Contacts
-[Github](https://github.com/dapucita/haxball-hotsmall-challange)
+[Github](https://github.com/dapucita/haxball-hotsmall-challenge)
 
 [Discord](https://discord.gg/qfg45B2)
 ## Credits

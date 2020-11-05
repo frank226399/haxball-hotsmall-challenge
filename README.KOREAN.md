@@ -1,4 +1,4 @@
-# haxball-hotsmall-challange (한국어 설명)
+# haxball-hotsmall-challenge (한국어 설명)
 
 핫스몰 챌린지를 운영하는 헥스볼 봇입니다.
 
@@ -28,7 +28,7 @@ npm start
 [Haxbotron](https://github.com/dapucita/haxbotron) GUI-based bot application
 
 ## Contacts
-[Github](https://github.com/dapucita/haxball-hotsmall-challange)
+[Github](https://github.com/dapucita/haxball-hotsmall-challenge)
 
 [Discord](https://discord.gg/qfg45B2)
 ## Credits
