@@ -16,6 +16,7 @@ export interface RoomConfig {
         "lon": number // flat
     };
     // token doesn't need if the bot is started from Headless page, not standalone.
+    // https://www.haxball.com/headlesstoken
     token?: string;
     // If set to true the room player list will be empty, the playerName setting will be ignored.
     // Default value is false for backwards compatibility reasons but it's recommended to set this to true.
