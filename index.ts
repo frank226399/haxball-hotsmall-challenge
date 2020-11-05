@@ -66,7 +66,11 @@ async function makeBot(hostConfig: any) {
         ])
         .then((answerConfig: any) => {
             hostConfig.roomName = answerConfig.inputRoomName;
-            hostConfig.password = answerConfig.inputRoomPassword;
+            if(answerConfig.inputRoomPassword == "") {
+                hostConfig.password = null;
+            } else {
+                hostConfig.password = answerConfig.inputRoomPassword;
+            }
             hostConfig.maxPlayers = answerConfig.inputRoomMaxPlayers;
             hostConfig.public = answerConfig.inputRoomPublic;
             hostConfig.token = answerConfig.inputRoomTokenKey;
