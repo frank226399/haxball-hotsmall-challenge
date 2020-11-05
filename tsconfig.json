@@ -71,7 +71,9 @@
     "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
   },
   "exclude" : [
+    ".node-persist",
     "out",
     "docs",
+    "webpack.config.bot.js"
   ]
 }

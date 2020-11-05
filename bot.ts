@@ -9,6 +9,9 @@ import {
     RoomConfig
 } from "./models/RoomConfig";
 import {
+    Player
+} from "./models/Player";
+import {
     gameRule
 } from "./models/gamerules/onebyone.rule";
 import * as eventListener from "./controllers/events/eventListeners";
@@ -16,7 +19,7 @@ import { PlayerObject } from "./models/PlayerObject";
 import { ScoresObject } from "./models/ScoreObject";
 
 const logger: Logger = Logger.getInstance();
-var isStatRecord: boolean; //TRUE means that recording stats now.
+var isStatRecord: boolean = false; //TRUE means that recording stats now.
 
 const botRoomConfig: RoomConfig = JSON.parse(getCookieFromHeadless('botConfig'));
 
@@ -25,21 +28,24 @@ logger.c("haxball-hotsmall-challange");
 logger.c(`The authentication token is conveyed via cookie(${botRoomConfig.token})`);
 logger.c("====");
 
+const playerList: Map<number, Player> = new Map(); // playerList:Player[] is an Map object. // playerList.get(player.id).name; : usage for playerList
+
 var room: any = window.HBInit(botRoomConfig);
 initialiseRoom();
 
 function initialiseRoom(): void {
     // Write initialising processes here.
     const nowDate: Date = new Date();
-    logger.c(`The game room is opened at ${nowDate.toString()}.`);
+    localStorage.setItem('_LaunchTime', nowDate.toString()); // save time the bot launched in localStorage
+    logger.c(`This game room is opened at ${nowDate.toString()}.`);
 
     room.setCustomStadium(gameRule.defaultMap);
     room.setScoreLimit(gameRule.requisite.scoreLimit);
     room.setTimeLimit(gameRule.requisite.timeLimit);
     room.setTeamsLock(gameRule.requisite.teamLock);
 
-    room.onPlayerJoin = (player: PlayerObject): void => {}
-    room.onPlayerLeave = (player: PlayerObject): void => {}
+    room.onPlayerJoin = (player: PlayerObject): void => eventListener.onPlayerJoinListener(room, playerList, player);
+    room.onPlayerLeave = (player: PlayerObject): void => eventListener.onPlayerLeaveListener(room, playerList, player, isStatRecord);
     room.onTeamVictory = (scores: ScoresObject): void => {}
     room.onPlayerChat = (player: PlayerObject, message: String): boolean => true;
     room.onPlayerBallKick = (player: PlayerObject): void => {}

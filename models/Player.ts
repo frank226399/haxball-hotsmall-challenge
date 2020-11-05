@@ -1,4 +1,5 @@
 import { PlayerObject, PlayerPosition, PlayerStats } from "./PlayerObject";
+
 export class Player implements PlayerObject {
     // PlayerObject holds information about a player
 

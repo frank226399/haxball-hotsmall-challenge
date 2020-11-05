@@ -9,9 +9,10 @@ import {
 // BOT Loader
 const inquirer = require("inquirer")
 const puppeteer = require('puppeteer');
+const nodeStorage = require('node-persist');
 
 var hostRoomConfig: RoomConfig; //room settings and information
-const isOpenHeadless: boolean = true; // option for open chromium in headless mode
+const isOpenHeadless: boolean = false; // option for open chromium in headless mode
 
 var isBotLaunched: boolean = false; // flag for check whether the bot is running
 var puppeteerContainer: any; // puppeteer page object
@@ -28,11 +29,17 @@ hostRoomConfig = { //default init
 }
 
 //bot open
+nodeStorageInit(); // init nodeStorage
+
 puppeteerContainer = makeBot(hostRoomConfig);
 isBotLaunched = true;
 
 // In this file you can include the rest of your app's specific main process code.
 // You can also put them in separate files and require them here.
+async function nodeStorageInit() {
+    await nodeStorage.init();
+}
+
 async function makeBot(hostConfig: any) {
     console.log('\x1b[32m%s\x1b[0m', "[haxball-hotsmall-challenge] starts");
     // input user custom config for room
@@ -90,6 +97,7 @@ async function makeBot(hostConfig: any) {
     });
 
     await browser.on('disconnected', () => {
+        clearInterval(storageLoop);
         // browser.close();
         isBotLaunched = false;
         console.log('\x1b[31m%s\x1b[0m', "[LOADER]The headless host is closed.");
@@ -123,6 +131,34 @@ async function makeBot(hostConfig: any) {
     await page.addScriptTag({
         path: './out/bot_bundle.js'
     });
+
+    // load stored data from node-persist storage to puppeteer html5 localstorage
+    await nodeStorage.forEach(async function (datum: any) { // async forEach(callback): This function iterates over each key/value pair and executes an asynchronous callback as well
+        // usage: datum.key, datum.value
+        if(datum.key != "_LaunchTime") { // except _LaunchTime
+            await page.evaluate((tempKey: string, tempStr: string) => {
+                localStorage.setItem(tempKey, tempStr);
+            }, datum.key, datum.value);
+        }
+    });
+
+    // get stored data from puppeteer html5 localstorage and copy them into node-persist storage
+    var storageLoop = setInterval(async function () {
+
+        var localStorageData: any[] = await page.evaluate(() => {
+            let jsonData: any = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key: string | null = localStorage.key(i);
+                if (typeof key === "string") {
+                    jsonData[key] = localStorage.getItem(key);
+                }
+            }
+            return jsonData;
+        });
+        Object.keys(localStorageData).forEach(function (elementKey: any) {
+            nodeStorage.setItem(elementKey, localStorageData[elementKey]);
+        });
+    }, 5000); // by each 5seconds
 
     return page;
 }

@@ -11,7 +11,7 @@ export class Logger {
     }
 
     public c(msg: string): void { // for common log
-        console.log(`[BOT]${msg}`);
+        console.log(`[LOG]${msg}`);
     }
 }
 
