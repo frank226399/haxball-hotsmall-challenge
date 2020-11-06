@@ -11,7 +11,7 @@ const puppeteer = require('puppeteer');
 const nodeStorage = require('node-persist');
 
 var hostRoomConfig: RoomConfig; //room settings and information
-const isOpenHeadless: boolean = false; // option for open chromium in headless mode
+const isOpenHeadless: boolean = true; // option for open chromium in headless mode
 
 var isBotLaunched: boolean = false; // flag for check whether the bot is running
 var puppeteerContainer: any; // puppeteer page object
