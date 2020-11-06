@@ -1,6 +1,4 @@
-import { Player } from "../../models/Player";
-import { PlayerObject, PlayerStorage } from "../../models/PlayerObject";
-import { getPlayerData, setPlayerData } from "../Storage";
+import { PlayerObject } from "../../models/PlayerObject";
 import { roomPlayersNumberCheck } from "../RoomTools";
 import { Logger } from "../Logger";
 import { gameRule } from "../../models/gamerules/onebyone.rule"
@@ -10,12 +8,13 @@ import { onPlayerLeave } from "../../resources/lang";
 const logger: Logger = Logger.getInstance();
 
 export function onPlayerLeaveListener(room: any, playerList: any, player: PlayerObject, isStatRecord: boolean): void {
-    logger.c(`${player.name} has left.`);
+    logger.c(`${player.name} has left.`); //logging
 
     if(playerList.has(player.id) == false) { // if the player wasn't registered in playerList (like banned player...)
             return; // exit this event
     }
 
+    //set placeholder data
     var placeholder = {
         targetID: player.id
         ,targetName: player.name
@@ -40,5 +39,6 @@ export function onPlayerLeaveListener(room: any, playerList: any, player: Player
             isStatRecord = false;
         }
     }
-    playerList.delete(player.id); // delete from player list
+
+    playerList.delete(player.id); // delete from playerlist
 }

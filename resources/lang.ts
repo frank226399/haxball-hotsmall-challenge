@@ -9,6 +9,7 @@ export const commontexts = {
 export const onPlayerJoin = {
     welcome: '📢 {targetName}#{targetID}님 반갑습니다! 📄 !help로 도움말을 볼 수 있습니다.'
     ,changename: '📢 {targetName}#{targetID}님의 예전 닉네임은 {targetNameOld} 입니다.'
+    ,resetWinStreak: '📢 이전 연승 기록은 초기화됩니다.'
     ,startRecord: '📊 충분한 인원이 모였습니다. 지금부터 전적이 기록됩니다.'
     ,stopRecord: '📊 최소 인원이 부족하여 전적이 기록되지 않습니다.'
     ,doubleJoinningMsg: '🚫 {targetName}#{targetID}님이 중복 접속하였습니다.'

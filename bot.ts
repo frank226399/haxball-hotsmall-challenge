@@ -44,7 +44,7 @@ function initialiseRoom(): void {
     room.setTimeLimit(gameRule.requisite.timeLimit);
     room.setTeamsLock(gameRule.requisite.teamLock);
 
-    room.onPlayerJoin = (player: PlayerObject): void => eventListener.onPlayerJoinListener(room, playerList, player);
+    room.onPlayerJoin = (player: PlayerObject): void => eventListener.onPlayerJoinListener(room, playerList, player, isStatRecord);
     room.onPlayerLeave = (player: PlayerObject): void => eventListener.onPlayerLeaveListener(room, playerList, player, isStatRecord);
     room.onTeamVictory = (scores: ScoresObject): void => {}
     room.onPlayerChat = (player: PlayerObject, message: String): boolean => true;

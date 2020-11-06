@@ -1,13 +1,15 @@
 import { Player } from "../../models/Player";
 import { PlayerObject, PlayerStorage } from "../../models/PlayerObject";
 import { getPlayerData, setPlayerData } from "../Storage";
+import { roomPlayersNumberCheck } from "../RoomTools";
 import { Logger } from "../Logger";
+import { gameRule } from "../../models/gamerules/onebyone.rule"
 import * as Tst from "../Translator";
 import { onPlayerJoin } from "../../resources/lang";
 
 const logger: Logger = Logger.getInstance();
 
-export function onPlayerJoinListener(room: any, playerList: any, player: PlayerObject): void {
+export function onPlayerJoinListener(room: any, playerList: any, player: PlayerObject, isStatRecord: boolean): void {
     var placeholder = {
         targetID: player.id
         ,targetName: player.name
@@ -40,11 +42,19 @@ export function onPlayerJoinListener(room: any, playerList: any, player: PlayerO
             playerList.set(player.id, new Player(player, {
                 totals: loadedData.totals,
                 wins: loadedData.wins,
-                streaks: loadedData.streaks,
+                streaks: 0, // reset WinStreaks when the player re-joinned
                 goals: loadedData.goals,
                 ogs: loadedData.ogs,
                 losePoints: loadedData.losePoints
             }));
+
+            //update placeholder
+            placeholder.targetStatsTotal = loadedData.totals;
+            placeholder.targetStatsWins = loadedData.wins;
+            placeholder.targetStatsStreaks = loadedData.streaks; //keep old WinStreaks cuz show stats
+            placeholder.targetStatsGoals = loadedData.goals;
+            placeholder.targetStatsOgs = loadedData.ogs;
+            placeholder.targetStatsLosepoints = loadedData.losePoints;
 
             if (player.name != loadedData.name) {
                 // if this player changed his/her name
@@ -52,6 +62,8 @@ export function onPlayerJoinListener(room: any, playerList: any, player: PlayerO
                 placeholder.targetNameOld = loadedData.name
                 room.sendAnnouncement(Tst.maketext(onPlayerJoin.changename, placeholder), null, 0x00FF00, "normal", 0);
             }
+
+            room.sendAnnouncement(Tst.maketext(onPlayerJoin.resetWinStreak, placeholder), null, 0x00FF00, "normal", 0);
         }
     } else {
         // if new player
@@ -64,6 +76,19 @@ export function onPlayerJoinListener(room: any, playerList: any, player: PlayerO
             ogs: 0,
             losePoints: 0
         }));
+    }
+
+    // check number of players joined and change game mode
+    if (roomPlayersNumberCheck(room) >= gameRule.requisite.minimumPlayers) {
+        if(isStatRecord == false) {
+            room.sendAnnouncement(Tst.maketext(onPlayerJoin.startRecord, placeholder), null, 0x00FF00, "normal", 0);
+            isStatRecord = true;
+        }
+    } else {
+        if(isStatRecord == true) {
+            room.sendAnnouncement(Tst.maketext(onPlayerJoin.stopRecord, placeholder), null, 0x00FF00, "normal", 0);
+            isStatRecord = false;
+        }
     }
 
     setPlayerData(playerList.get(player.id)); // register(or update) in localStorage
