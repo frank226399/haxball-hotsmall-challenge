@@ -2,9 +2,8 @@
 // This is the load part of the bot
 
 //import modules
-import {
-    RoomConfig
-} from "./models/RoomConfig";
+import { tweaks_geoLocationOverride, tweaks_WebRTCAnoym } from "./tweaks";
+import { RoomConfig } from "./models/RoomConfig";
 
 // BOT Loader
 const inquirer = require("inquirer")
@@ -17,6 +16,11 @@ const isOpenHeadless: boolean = false; // option for open chromium in headless m
 var isBotLaunched: boolean = false; // flag for check whether the bot is running
 var puppeteerContainer: any; // puppeteer page object
 
+var puppeteerCustomArgs: string[] = ['--no-sandbox', '--disable-setuid-sandbox'];
+if(tweaks_WebRTCAnoym === false) { // tweaks_WebRTCAnoym : Local IP WebRTC Anonymization for the bot. MORE INFO : tweaks.ts
+    puppeteerCustomArgs.push('--disable-features=WebRtcHideLocalIpsWithMdns');
+}
+
 // 여기에 hostRoomConfig에 데이터를 적용하는 코드를 작성
 hostRoomConfig = { //default init
     roomName: "haxball-hotsmall-challange test room",
@@ -26,6 +30,14 @@ hostRoomConfig = { //default init
     public: true,
     token: "", //token key from runtime arguments
     noPlayer: true
+}
+
+if(tweaks_geoLocationOverride.patch === true) { // tweaks_geoLocationOverride : GeoLocation overriding for the room. MORE INFO : tweaks.ts
+    hostRoomConfig.geo = {
+        code: tweaks_geoLocationOverride.code
+        ,lat: tweaks_geoLocationOverride.lat
+        ,lon: tweaks_geoLocationOverride.lon
+    }
 }
 
 //bot open
@@ -93,7 +105,7 @@ async function makeBot(hostConfig: any) {
 
     const browser = await puppeteer.launch({
         headless: isOpenHeadless,
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-features=WebRtcHideLocalIpsWithMdns']
+        args: puppeteerCustomArgs
     });
 
     await browser.on('disconnected', () => {
