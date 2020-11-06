@@ -8,7 +8,7 @@ import { onPlayerLeave } from "../../resources/lang";
 const logger: Logger = Logger.getInstance();
 
 export function onPlayerLeaveListener(room: any, playerList: any, player: PlayerObject, isStatRecord: boolean): void {
-    logger.c(`${player.name} has left.`); //logging
+    logger.i(`${player.name} has left.`); //logging
 
     if(playerList.has(player.id) == false) { // if the player wasn't registered in playerList (like banned player...)
             return; // exit this event

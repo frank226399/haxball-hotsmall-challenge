@@ -1,8 +1,12 @@
+// Log Level (lower level means more high priority)
+// error 0, warn 1, info 2, http 3, verbose 4, debug 5, silly 6
+
+import { LogMessage } from "../models/LogMessage";
+
 export class Logger {
     // written in Singleton Pattern
     // If the bot created Logger object once, never create ever until the bot instance dead. 
     private static instance: Logger = new Logger();
-    
     public static getInstance(): Logger {
         if (this.instance == null) {
             this.instance = new Logger();
@@ -10,16 +14,32 @@ export class Logger {
         return this.instance;
     }
 
-    private push(msg: string): void {
-        window.logQueue.push(msg);
+    private push(messageObject: LogMessage): void {
+        window.logQueue.push(messageObject)
+        
     }
-    private pop(): string | undefined {
+    private pop(): LogMessage | undefined {
         return window.logQueue.pop();
     }
 
-    public c(msg: string): void { // for common log
-        this.push(msg);
+    /*
+    public c(msg: string): void { // for common info log
+        this.push({type: 2, context: msg});
     }
+    */
+
+    public i(msg: string): void { // for common info log
+        this.push({type: 2, context: msg});
+    }
+
+    public e(msg: string): void { // for error log
+        this.push({type: 2, context: msg});
+    }
+
+    public w(msg: string): void { // for warning log
+        this.push({type: 2, context: msg});
+    }
+
 }
 
 /*

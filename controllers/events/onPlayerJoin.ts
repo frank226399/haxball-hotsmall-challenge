@@ -22,12 +22,12 @@ export function onPlayerJoinListener(room: any, playerList: any, player: PlayerO
         ,targetStatsLosepoints: 0
     }
     // logging into console (debug)
-    logger.c(`${player.name} has joined. ID(${player.id}),CONN(${player.conn}),AUTH(${player.auth})`);
+    logger.i(`${player.name} has joined. ID(${player.id}),CONN(${player.conn}),AUTH(${player.auth})`);
 
     // if this player has already joinned by other connection
     playerList.forEach((eachPlayer: Player) => {
         if (eachPlayer.conn == player.conn) {
-            logger.c(`${player.name} was joined but kicked for double joinning.(origin:${eachPlayer.name}#${eachPlayer.id},conn:${player.conn})`);
+            logger.i(`${player.name} was joined but kicked for double joinning.(origin:${eachPlayer.name}#${eachPlayer.id},conn:${player.conn})`);
             room.kickPlayer(player.id, Tst.maketext(onPlayerJoin.doubleJoinningKick, placeholder), false); // kick
             room.sendAnnouncement(Tst.maketext(onPlayerJoin.doubleJoinningMsg, placeholder), null, 0xFF0000, "normal", 0); // notify
             return; // exit from this join event

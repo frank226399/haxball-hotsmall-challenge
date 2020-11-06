@@ -1,8 +1,10 @@
-import { RoomConfig } from '../models/RoomConfig';
+import { RoomConfig } from "../models/RoomConfig";
+import { LogMessage } from "../models/LogMessage";
+
 declare global {
     interface Window {
         // bot
-        logQueue: string[] // for sharing log message
+        logQueue: LogMessage[] // for sharing log message
         
         // haxball
         HBInit(config: RoomConfig): any

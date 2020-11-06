@@ -1,4 +1,4 @@
-import winston from 'winston';
+import winston, { transports } from 'winston';
 import winstonDaily from 'winston-daily-rotate-file';
 
 const winstonLogDir = '.logs';  // where log files saved
@@ -7,7 +7,7 @@ const { combine, timestamp, printf } = winston.format;
 
 // log format define
 const winstonLogFormat = printf(logdata => {
-    return `${logdata.timestamp} :${logdata.level}: ${logdata.message}`;
+    return `${logdata.timestamp}|${logdata.level}| ${logdata.message}`;
 });
 
 // Log Level (lower level means more high priority)
@@ -20,6 +20,15 @@ export const winstonLogger = winston.createLogger({
         winstonLogFormat,
     ),
     transports: [
+        // console part
+        new winston.transports.Console({
+            format: winston.format.combine(
+                winston.format.colorize(),  // make it colorful
+                winston.format.simple(),  // `${info.level}: ${info.message} JSON.stringify({ ...rest })`
+              )
+        }),
+
+        // daily save part
         // setting for file includes 'info' level logs
         new winstonDaily({
             level: 'info',
@@ -46,7 +55,8 @@ export const winstonLogger = winston.createLogger({
             filename: `%DATE%.warn.log`,
             maxFiles: 30, // 30days
             zippedArchive: true,
-        }),
+        })
+        /*,
         // setting for file includes 'http' level logs
         new winstonDaily({
             level: 'http',
@@ -82,7 +92,8 @@ export const winstonLogger = winston.createLogger({
             filename: `%DATE%.silly.log`,
             maxFiles: 30, // 30days
             zippedArchive: true,
-        }),
+        })
+        */
     ]
 });
 

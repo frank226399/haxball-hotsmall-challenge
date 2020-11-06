@@ -2,6 +2,7 @@
 // This is the load part of the bot
 
 //import modules
+import { LogMessage } from "./models/LogMessage";
 import { winstonLogger } from "./winstonLoggerSystem";
 import { tweaks_geoLocationOverride, tweaks_WebRTCAnoym } from "./tweaks";
 import { RoomConfig } from "./models/RoomConfig";
@@ -12,13 +13,13 @@ const puppeteer = require('puppeteer');
 const nodeStorage = require('node-persist');
 
 var hostRoomConfig: RoomConfig; //room settings and information
-const isOpenHeadless: boolean = false; // option for open chromium in headless mode
+const isOpenHeadless: boolean = true; // option for open chromium in headless mode
 
 var isBotLaunched: boolean = false; // flag for check whether the bot is running
 var puppeteerContainer: any; // puppeteer page object
 
 var puppeteerCustomArgs: string[] = ['--no-sandbox', '--disable-setuid-sandbox'];
-if(tweaks_WebRTCAnoym === false) { // tweaks_WebRTCAnoym : Local IP WebRTC Anonymization for the bot. MORE INFO : tweaks.ts
+if (tweaks_WebRTCAnoym === false) { // tweaks_WebRTCAnoym : Local IP WebRTC Anonymization for the bot. MORE INFO : tweaks.ts
     puppeteerCustomArgs.push('--disable-features=WebRtcHideLocalIpsWithMdns');
 }
 
@@ -33,11 +34,11 @@ hostRoomConfig = { //default init
     noPlayer: true
 }
 
-if(tweaks_geoLocationOverride.patch === true) { // tweaks_geoLocationOverride : GeoLocation overriding for the room. MORE INFO : tweaks.ts
+if (tweaks_geoLocationOverride.patch === true) { // tweaks_geoLocationOverride : GeoLocation overriding for the room. MORE INFO : tweaks.ts
     hostRoomConfig.geo = {
         code: tweaks_geoLocationOverride.code
-        ,lat: tweaks_geoLocationOverride.lat
-        ,lon: tweaks_geoLocationOverride.lon
+        , lat: tweaks_geoLocationOverride.lat
+        , lon: tweaks_geoLocationOverride.lon
     }
 }
 
@@ -54,7 +55,7 @@ async function nodeStorageInit() {
 }
 
 async function makeBot(hostConfig: any) {
-    console.log('\x1b[32m%s\x1b[0m', "[haxball-hotsmall-challenge] starts");
+    winstonLogger.info("[LOADER] haxball-hotsmall-challenge starts now !!!");
     // input user custom config for room
     await inquirer
         .prompt([
@@ -86,7 +87,7 @@ async function makeBot(hostConfig: any) {
         ])
         .then((answerConfig: any) => {
             hostConfig.roomName = answerConfig.inputRoomName;
-            if(answerConfig.inputRoomPassword == "") {
+            if (answerConfig.inputRoomPassword == "") {
                 hostConfig.password = null;
             } else {
                 hostConfig.password = answerConfig.inputRoomPassword;
@@ -96,7 +97,7 @@ async function makeBot(hostConfig: any) {
             hostConfig.token = answerConfig.inputRoomTokenKey;
         });
 
-    console.log('\x1b[32m%s\x1b[0m', "[LOADER]The headless host has started.");
+    winstonLogger.info("[LOADER] The headless host has started.");
     //await nodeStorage.init();
 
     /*
@@ -113,7 +114,7 @@ async function makeBot(hostConfig: any) {
         clearInterval(storageLoop);
         // browser.close();
         isBotLaunched = false;
-        console.log('\x1b[31m%s\x1b[0m', "[LOADER]The headless host is closed.");
+        winstonLogger.info("[LOADER] The headless host is closed.");
         return;
     });
 
@@ -134,7 +135,7 @@ async function makeBot(hostConfig: any) {
     which tells you what type of call it was (log, error, etc.),
     what the arguments were (args()), etc.
     */
-   
+
     /*
     await page.on('console', (msg: any) => {
         for (let i = 0; i < msg.args().length; ++i) {
@@ -150,7 +151,7 @@ async function makeBot(hostConfig: any) {
     // load stored data from node-persist storage to puppeteer html5 localstorage
     await nodeStorage.forEach(async function (datum: any) { // async forEach(callback): This function iterates over each key/value pair and executes an asynchronous callback as well
         // usage: datum.key, datum.value
-        if(datum.key != "_LaunchTime") { // except _LaunchTime
+        if (datum.key != "_LaunchTime") { // except _LaunchTime
             await page.evaluate((tempKey: string, tempStr: string) => {
                 localStorage.setItem(tempKey, tempStr);
             }, datum.key, datum.value);
@@ -160,15 +161,35 @@ async function makeBot(hostConfig: any) {
     // get stored data from puppeteer html5 localstorage and copy them into node-persist storage
     var storageLoop = setInterval(async function () {
         // log system with winston module. winstonLoggerSystem
-        var msgQueue: any = await page.evaluate(() => {
+        var msgQueue: LogMessage[] = await page.evaluate(() => {
             var msgQueueCopy = window.logQueue;
             window.logQueue = [];
             return msgQueueCopy;
-        });
-        for(var loopCount = 0; loopCount < msgQueue.length; loopCount++) {
-            winstonLogger.info(msgQueue.pop()); //and log it!
+        }); // get and pop
+        for (var loopCount = 0; loopCount < msgQueue.length; loopCount++) { //and log it!
+            var msgQueueChunk: LogMessage | undefined = msgQueue.pop();
+            switch (msgQueueChunk?.type) {
+                case 0:
+                    { 
+                        winstonLogger.error(msgQueueChunk.context);
+                        break; 
+                    }
+                case 1:
+                    { 
+                        winstonLogger.warn(msgQueueChunk.context);
+                        break; 
+                    }
+                case 2:
+                    {
+                        winstonLogger.info(msgQueueChunk.context);
+                        break;
+                    }
+                default: {
+                    break;
+                }
+            }
         }
-        
+
         // data from bot
         var localStorageData: any[] = await page.evaluate(() => {
             let jsonData: any = {};

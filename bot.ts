@@ -39,7 +39,7 @@ function initialiseRoom(): void {
     // Write initialising processes here.
     const nowDate: Date = new Date();
     localStorage.setItem('_LaunchTime', nowDate.toString()); // save time the bot launched in localStorage
-    logger.c(`This game room is opened at ${nowDate.toString()}.`);
+    logger.i(`This game room is opened at ${nowDate.toString()}.`);
 
     room.setCustomStadium(gameRule.defaultMap);
     room.setScoreLimit(gameRule.requisite.scoreLimit);
