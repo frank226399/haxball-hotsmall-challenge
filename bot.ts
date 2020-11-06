@@ -18,15 +18,17 @@ import * as eventListener from "./controllers/events/eventListeners";
 import { PlayerObject } from "./models/PlayerObject";
 import { ScoresObject } from "./models/ScoreObject";
 
+window.logQueue = []; // init for log queue
+
 const logger: Logger = Logger.getInstance();
 var isStatRecord: boolean = false; //TRUE means that recording stats now.
 
 const botRoomConfig: RoomConfig = JSON.parse(getCookieFromHeadless('botConfig'));
 
-logger.c("====");
+/* logger.c("====");
 logger.c("haxball-hotsmall-challange");
 logger.c(`The authentication token is conveyed via cookie(${botRoomConfig.token})`);
-logger.c("====");
+logger.c("===="); */
 
 const playerList: Map<number, Player> = new Map(); // playerList:Player[] is an Map object. // playerList.get(player.id).name; : usage for playerList
 

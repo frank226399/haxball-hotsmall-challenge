@@ -24,8 +24,11 @@
     "webpack-cli": "^4.2.0"
   },
   "dependencies": {
+    "@types/winston": "^2.4.4",
     "inquirer": "^7.3.3",
     "node-persist": "^3.1.0",
-    "puppeteer": "^5.4.1"
+    "puppeteer": "^5.4.1",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.0"
   }
 }

@@ -2,6 +2,7 @@
 // This is the load part of the bot
 
 //import modules
+import { winstonLogger } from "./winstonLoggerSystem";
 import { tweaks_geoLocationOverride, tweaks_WebRTCAnoym } from "./tweaks";
 import { RoomConfig } from "./models/RoomConfig";
 
@@ -11,7 +12,7 @@ const puppeteer = require('puppeteer');
 const nodeStorage = require('node-persist');
 
 var hostRoomConfig: RoomConfig; //room settings and information
-const isOpenHeadless: boolean = true; // option for open chromium in headless mode
+const isOpenHeadless: boolean = false; // option for open chromium in headless mode
 
 var isBotLaunched: boolean = false; // flag for check whether the bot is running
 var puppeteerContainer: any; // puppeteer page object
@@ -133,12 +134,14 @@ async function makeBot(hostConfig: any) {
     which tells you what type of call it was (log, error, etc.),
     what the arguments were (args()), etc.
     */
-
+   
+    /*
     await page.on('console', (msg: any) => {
         for (let i = 0; i < msg.args().length; ++i) {
             console.log(`[BOT]${i}: ${msg.args()[i]}`);
         }
     });
+    */
 
     await page.addScriptTag({
         path: './out/bot_bundle.js'
@@ -156,7 +159,17 @@ async function makeBot(hostConfig: any) {
 
     // get stored data from puppeteer html5 localstorage and copy them into node-persist storage
     var storageLoop = setInterval(async function () {
-
+        // log system with winston module. winstonLoggerSystem
+        var msgQueue: any = await page.evaluate(() => {
+            var msgQueueCopy = window.logQueue;
+            window.logQueue = [];
+            return msgQueueCopy;
+        });
+        for(var loopCount = 0; loopCount < msgQueue.length; loopCount++) {
+            winstonLogger.info(msgQueue.pop()); //and log it!
+        }
+        
+        // data from bot
         var localStorageData: any[] = await page.evaluate(() => {
             let jsonData: any = {};
             for (let i = 0; i < localStorage.length; i++) {
@@ -167,6 +180,8 @@ async function makeBot(hostConfig: any) {
             }
             return jsonData;
         });
+
+        // save data
         Object.keys(localStorageData).forEach(function (elementKey: any) {
             nodeStorage.setItem(elementKey, localStorageData[elementKey]);
         });

@@ -1,3 +1,4 @@
 .node-persist/
+.logs/
 node_modules/
 out/

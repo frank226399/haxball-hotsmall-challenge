@@ -10,8 +10,15 @@ export class Logger {
         return this.instance;
     }
 
+    private push(msg: string): void {
+        window.logQueue.push(msg);
+    }
+    private pop(): string | undefined {
+        return window.logQueue.pop();
+    }
+
     public c(msg: string): void { // for common log
-        console.log(`[LOG]${msg}`);
+        this.push(msg);
     }
 }
 
