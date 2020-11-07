@@ -1,4 +1,9 @@
 # haxball-hotsmall-challenge
+![GitHub package.json version](https://img.shields.io/github/package-json/v/dapucita/haxball-hotsmall-challenge?style=flat-square)
+![Most Used Language](https://img.shields.io/github/languages/top/dapucita/haxball-hotsmall-challenge?style=flat-square)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/dapucita/haxball-hotsmall-challenge?style=flat-square)
+![Our Discrod Online Members](https://img.shields.io/discord/602402864647634954?style=flat-square)
+![MIT Licence](https://img.shields.io/github/license/dapucita/haxball-hotsmall-challenge?style=flat-square)
 
 Haxball bot for power HotSmall Challenge.
 
