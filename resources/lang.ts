@@ -25,3 +25,8 @@ export const onTeamGoal = {
     goal: '⚽️ {targetName}#{targetID}님의 득점!'
     ,og: '⚽️ {targetName}#{targetID}님이 자책골을 넣었습니다...'
 }
+
+export const onTeamVictory = {
+    victory: '🎉 경기 종료! 스코어 {redScore}:{blueScore} !! ⚽️'
+    ,burning: '🔥 {targetName}#{targetID}님이 {streakWinCount}연승중입니다 !!'
+}

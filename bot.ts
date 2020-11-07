@@ -23,7 +23,8 @@ window.logQueue = []; // init for log queue
 
 const logger: Logger = Logger.getInstance();
 const ballKickStack: KickStack = KickStack.getInstance();
-window.isStatRecord = false; //TRUE means that recording stats now.
+window.isStatRecord = false; // TRUE means that recording stats now.
+window.winStreakCount = 0; // default value is 0
 
 const botRoomConfig: RoomConfig = JSON.parse(getCookieFromHeadless('botConfig'));
 
@@ -50,14 +51,14 @@ function initialiseRoom(): void {
 
     room.onPlayerJoin = (player: PlayerObject): void => eventListener.onPlayerJoinListener(room, playerList, player);
     room.onPlayerLeave = (player: PlayerObject): void => eventListener.onPlayerLeaveListener(room, playerList, player);
-    room.onTeamVictory = (scores: ScoresObject): void => {}
+    room.onTeamVictory = (scores: ScoresObject): void => eventListener.onTeamVictoryListener(scores, room, playerList);
     room.onPlayerChat = (player: PlayerObject, message: String): boolean => true;
     room.onPlayerBallKick = (player: PlayerObject): void => eventListener.onPlayerBallKickListener(player, ballKickStack);
     room.onTeamGoal = (team: number): void => eventListener.onTeamGoalListener(team, ballKickStack, room, playerList);
-    room.onGameStart = (byPlayer: PlayerObject): void => {}
+    room.onGameStart = (byPlayer: PlayerObject): void => eventListener.onGameStartListener(byPlayer);
     room.onGameStop = (byPlayer: PlayerObject): void => eventListener.onGameStopListener(byPlayer, ballKickStack);
     room.onPlayerAdminChange = (changedPlayer: PlayerObject, byPlayer: PlayerObject): void => {}
-    room.onPlayerTeamChange = (changedPlayer: PlayerObject, byPlayer: PlayerObject): void => {}
+    room.onPlayerTeamChange = (changedPlayer: PlayerObject, byPlayer: PlayerObject): void => eventListener.onPlayerTeamChangeListener(changedPlayer, byPlayer);
     room.onPlayerKicked = (kickedPlayer: PlayerObject, reason: string, ban: boolean, byPlayer: PlayerObject): void => {}
     room.onGameTick = (): void => {}
     room.onGamePause = (byPlayer: PlayerObject): void => {}

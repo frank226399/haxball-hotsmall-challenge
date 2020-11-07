@@ -41,3 +41,5 @@ Usage sample : `'Welcome, {playerName}!'`
 `redScore` : score of Red team
 
 `blueScore` : score of Blue team
+
+`streakWinCount`: how many this winner wins streak 

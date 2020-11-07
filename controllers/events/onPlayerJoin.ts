@@ -21,13 +21,13 @@ export function onPlayerJoinListener(room: any, playerList: any, player: PlayerO
         ,targetStatsOgs: 0
         ,targetStatsLosepoints: 0
     }
-    // logging into console (debug)
-    logger.i(`${player.name} has joined. ID(${player.id}),CONN(${player.conn}),AUTH(${player.auth})`);
+    // logging into console
+    logger.i(`${player.name}#${player.id} has joined. CONN(${player.conn}),AUTH(${player.auth})`);
 
     // if this player has already joinned by other connection
     playerList.forEach((eachPlayer: Player) => {
         if (eachPlayer.conn == player.conn) {
-            logger.i(`${player.name} was joined but kicked for double joinning.(origin:${eachPlayer.name}#${eachPlayer.id},conn:${player.conn})`);
+            logger.i(`${player.name}#${player.id} was joined but kicked for double joinning.(origin:${eachPlayer.name}#${eachPlayer.id},conn:${player.conn})`);
             room.kickPlayer(player.id, Tst.maketext(onPlayerJoin.doubleJoinningKick, placeholder), false); // kick
             room.sendAnnouncement(Tst.maketext(onPlayerJoin.doubleJoinningMsg, placeholder), null, 0xFF0000, "normal", 0); // notify
             return; // exit from this join event
@@ -42,7 +42,7 @@ export function onPlayerJoinListener(room: any, playerList: any, player: PlayerO
             playerList.set(player.id, new Player(player, {
                 totals: loadedData.totals,
                 wins: loadedData.wins,
-                streaks: 0, // reset WinStreaks when the player re-joinned
+                streaks: loadedData.streaks,
                 goals: loadedData.goals,
                 ogs: loadedData.ogs,
                 losePoints: loadedData.losePoints
@@ -61,6 +61,7 @@ export function onPlayerJoinListener(room: any, playerList: any, player: PlayerO
                 // notify that fact to other players only once ( it will never be notified if he/she rejoined next time)
                 placeholder.targetNameOld = loadedData.name
                 room.sendAnnouncement(Tst.maketext(onPlayerJoin.changename, placeholder), null, 0x00FF00, "normal", 0);
+                logger.i(`${player.name}#${player.id} has changed his name from ${loadedData.name}. CONN(${player.conn}),AUTH(${player.auth})`); // log it
             }
 
             room.sendAnnouncement(Tst.maketext(onPlayerJoin.resetWinStreak, placeholder), null, 0x00FF00, "normal", 0);
