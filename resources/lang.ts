@@ -20,3 +20,8 @@ export const onPlayerLeave = {
     startRecord: '📊 충분한 인원이 모였습니다. 지금부터 전적이 기록됩니다.'
     ,stopRecord: '📊 최소 인원이 부족하여 전적이 기록되지 않습니다.'
 }
+
+export const onTeamGoal = {
+    goal: '⚽️ {targetName}#{targetID}님의 득점!'
+    ,og: '⚽️ {targetName}#{targetID}님이 자책골을 넣었습니다...'
+}

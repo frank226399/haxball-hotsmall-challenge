@@ -17,11 +17,13 @@ import {
 import * as eventListener from "./controllers/events/eventListeners";
 import { PlayerObject } from "./models/PlayerObject";
 import { ScoresObject } from "./models/ScoreObject";
+import { KickStack } from "./models/BallKickTrace";
 
 window.logQueue = []; // init for log queue
 
 const logger: Logger = Logger.getInstance();
-var isStatRecord: boolean = false; //TRUE means that recording stats now.
+const ballKickStack: KickStack = KickStack.getInstance();
+window.isStatRecord = false; //TRUE means that recording stats now.
 
 const botRoomConfig: RoomConfig = JSON.parse(getCookieFromHeadless('botConfig'));
 
@@ -46,14 +48,14 @@ function initialiseRoom(): void {
     room.setTimeLimit(gameRule.requisite.timeLimit);
     room.setTeamsLock(gameRule.requisite.teamLock);
 
-    room.onPlayerJoin = (player: PlayerObject): void => eventListener.onPlayerJoinListener(room, playerList, player, isStatRecord);
-    room.onPlayerLeave = (player: PlayerObject): void => eventListener.onPlayerLeaveListener(room, playerList, player, isStatRecord);
+    room.onPlayerJoin = (player: PlayerObject): void => eventListener.onPlayerJoinListener(room, playerList, player);
+    room.onPlayerLeave = (player: PlayerObject): void => eventListener.onPlayerLeaveListener(room, playerList, player);
     room.onTeamVictory = (scores: ScoresObject): void => {}
     room.onPlayerChat = (player: PlayerObject, message: String): boolean => true;
-    room.onPlayerBallKick = (player: PlayerObject): void => {}
-    room.onTeamGoal = (team: number): void => {}
+    room.onPlayerBallKick = (player: PlayerObject): void => eventListener.onPlayerBallKickListener(player, ballKickStack);
+    room.onTeamGoal = (team: number): void => eventListener.onTeamGoalListener(team, ballKickStack, room, playerList);
     room.onGameStart = (byPlayer: PlayerObject): void => {}
-    room.onGameStop = (byPlayer: PlayerObject): void => {}
+    room.onGameStop = (byPlayer: PlayerObject): void => eventListener.onGameStopListener(byPlayer, ballKickStack);
     room.onPlayerAdminChange = (changedPlayer: PlayerObject, byPlayer: PlayerObject): void => {}
     room.onPlayerTeamChange = (changedPlayer: PlayerObject, byPlayer: PlayerObject): void => {}
     room.onPlayerKicked = (kickedPlayer: PlayerObject, reason: string, ban: boolean, byPlayer: PlayerObject): void => {}

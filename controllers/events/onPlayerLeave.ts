@@ -7,7 +7,7 @@ import { onPlayerLeave } from "../../resources/lang";
 
 const logger: Logger = Logger.getInstance();
 
-export function onPlayerLeaveListener(room: any, playerList: any, player: PlayerObject, isStatRecord: boolean): void {
+export function onPlayerLeaveListener(room: any, playerList: any, player: PlayerObject): void {
     logger.i(`${player.name} has left.`); //logging
 
     if(playerList.has(player.id) == false) { // if the player wasn't registered in playerList (like banned player...)
@@ -29,14 +29,14 @@ export function onPlayerLeaveListener(room: any, playerList: any, player: Player
 
     // check number of players joined and change game mode
     if (roomPlayersNumberCheck(room) >= gameRule.requisite.minimumPlayers) {
-        if(isStatRecord == false) {
+        if(window.isStatRecord == false) {
             room.sendAnnouncement(Tst.maketext(onPlayerLeave.startRecord, placeholder), null, 0x00FF00, "normal", 0);
-            isStatRecord = true;
+            window.isStatRecord = true;
         }
     } else {
-        if(isStatRecord == true) {
+        if(window.isStatRecord == true) {
             room.sendAnnouncement(Tst.maketext(onPlayerLeave.stopRecord, placeholder), null, 0x00FF00, "normal", 0);
-            isStatRecord = false;
+            window.isStatRecord = false;
         }
     }
 

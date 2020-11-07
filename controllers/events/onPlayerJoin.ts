@@ -9,7 +9,7 @@ import { onPlayerJoin } from "../../resources/lang";
 
 const logger: Logger = Logger.getInstance();
 
-export function onPlayerJoinListener(room: any, playerList: any, player: PlayerObject, isStatRecord: boolean): void {
+export function onPlayerJoinListener(room: any, playerList: any, player: PlayerObject): void {
     var placeholder = {
         targetID: player.id
         ,targetName: player.name
@@ -80,14 +80,14 @@ export function onPlayerJoinListener(room: any, playerList: any, player: PlayerO
 
     // check number of players joined and change game mode
     if (roomPlayersNumberCheck(room) >= gameRule.requisite.minimumPlayers) {
-        if(isStatRecord == false) {
+        if(window.isStatRecord !== true) {
             room.sendAnnouncement(Tst.maketext(onPlayerJoin.startRecord, placeholder), null, 0x00FF00, "normal", 0);
-            isStatRecord = true;
+            window.isStatRecord = true;
         }
     } else {
-        if(isStatRecord == true) {
+        if(window.isStatRecord !== false) {
             room.sendAnnouncement(Tst.maketext(onPlayerJoin.stopRecord, placeholder), null, 0x00FF00, "normal", 0);
-            isStatRecord = false;
+            window.isStatRecord = false;
         }
     }
 

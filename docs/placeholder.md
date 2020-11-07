@@ -21,3 +21,23 @@ Usage sample : `'Welcome, {playerName}!'`
 `targetStatsOgs` : count of OGs the player made.
 
 `targetStatsLosepoints` : count of points the player lose.
+
+### onTeamGoal
+`targetID` : numeric ID of player who scroed
+
+`targetName` : name of player who scored
+
+`targetTeamName` : team name who got a score (Red / Blue)
+
+
+### onTeamVictory
+
+`targetID` : numeric ID of winner.
+
+`targetName` : name of winner.
+
+`targetTeamName` : name of winner's team. (Red / Blue)
+
+`redScore` : score of Red team
+
+`blueScore` : score of Blue team
