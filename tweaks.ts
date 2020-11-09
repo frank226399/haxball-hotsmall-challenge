@@ -18,6 +18,6 @@ export const tweaks_geoLocationOverride = {
 // if you want to allow double join, disable this option
 export const tweaks_doubleJoinBlock: boolean = false; // true: enable, false: disable
 
-// tweaks_headlessMode : open chromium engine as headless mode
-// if you want to open as headless mode, enable this option
+// tweaks_headlessMode : Open Chromium engine as Headless mode
+// if you don't want to open the bot as headless mode, disable this option
 export const tweaks_headlessMode: boolean = false; // true: enable, false: disable
