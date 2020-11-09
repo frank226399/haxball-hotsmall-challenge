@@ -17,3 +17,7 @@ export const tweaks_geoLocationOverride = {
 // tweaks_doubleJoinBlock : Prohibit Double Join into the room
 // if you want to allow double join, disable this option
 export const tweaks_doubleJoinBlock: boolean = false; // true: enable, false: disable
+
+// tweaks_headlessMode : open chromium engine as headless mode
+// if you want to open as headless mode, enable this option
+export const tweaks_headlessMode: boolean = false; // true: enable, false: disable

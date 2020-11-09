@@ -4,7 +4,7 @@
 //import modules
 import { LogMessage } from "./models/LogMessage";
 import { winstonLogger } from "./winstonLoggerSystem";
-import { tweaks_geoLocationOverride, tweaks_WebRTCAnoym } from "./tweaks";
+import { tweaks_geoLocationOverride, tweaks_headlessMode, tweaks_WebRTCAnoym } from "./tweaks";
 import { RoomConfig } from "./models/RoomConfig";
 
 // BOT Loader
@@ -13,7 +13,7 @@ const puppeteer = require('puppeteer');
 const nodeStorage = require('node-persist');
 
 var hostRoomConfig: RoomConfig; //room settings and information
-const isOpenHeadless: boolean = true; // option for open chromium in headless mode
+const isOpenHeadless: boolean = tweaks_headlessMode; // option for open chromium in headless mode
 
 var isBotLaunched: boolean = false; // flag for check whether the bot is running
 var puppeteerContainer: any; // puppeteer page object
