@@ -13,3 +13,7 @@ export const tweaks_geoLocationOverride = {
     ,lat: 37.5665
     ,lon: 126.978
 }
+
+// tweaks_doubleJoinBlock : Prohibit Double Join into the room
+// if you want to allow double join, disable this option
+export const tweaks_doubleJoinBlock: boolean = false; // true: enable, false: disable
