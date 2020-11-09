@@ -41,5 +41,7 @@ Made by `dapucita`
 
 Stadium map file by `G.Buffon`
 
+Special thanks to `뽀삐`
+
 ## Licence
 `MIT Licence`
