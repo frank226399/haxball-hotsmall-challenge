@@ -2,11 +2,16 @@
 
 import { PlayerObject } from "../../models/PlayerObject";
 import { Logger } from "../Logger";
+import * as Tst from "../Translator";
 import { setPlayerData } from "../Storage";
+import { onGameStart } from "../../resources/lang";
 
 const logger: Logger = Logger.getInstance();
 
 export function onGameStartListener(byPlayer: PlayerObject | null, room:any, playerList: any): void {
+    // mod switching
+    window.isGameNow = true;
+
     // logging
     if(byPlayer !== null) {
         logger.i(`The game started by ${byPlayer.name}#${byPlayer.id}. CONN(${byPlayer.conn}),AUTH(${byPlayer.auth})`);
@@ -32,6 +37,9 @@ export function onGameStartListener(byPlayer: PlayerObject | null, room:any, pla
             ,blueTargetID: bluePlayer.id
             ,blueTargetName: bluePlayer.name
         }
+
+        //message to game room
+        room.sendAnnouncement(Tst.maketext(onGameStart.startGame, placeholder), null, 0x00FF00, "normal", 0);
 
         //log it
         logger.i(`${placeholder.redTargetName}#${placeholder.redTargetID} and ${placeholder.blueTargetName}#${placeholder.blueTargetID}has participated this challenge.`);

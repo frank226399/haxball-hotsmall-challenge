@@ -24,6 +24,7 @@ window.logQueue = []; // init for log queue
 const logger: Logger = Logger.getInstance();
 const ballKickStack: KickStack = KickStack.getInstance();
 window.isStatRecord = false; // TRUE means that recording stats now.
+window.isGameNow = false; // TRUE means that player are playing the game
 window.winStreakCount = 0; // default value is 0
 
 const botRoomConfig: RoomConfig = JSON.parse(getCookieFromHeadless('botConfig'));
@@ -55,7 +56,7 @@ function initialiseRoom(): void {
     room.onPlayerChat = (player: PlayerObject, message: String): boolean => true;
     room.onPlayerBallKick = (player: PlayerObject): void => eventListener.onPlayerBallKickListener(player, ballKickStack);
     room.onTeamGoal = (team: number): void => eventListener.onTeamGoalListener(team, ballKickStack, room, playerList);
-    room.onGameStart = (byPlayer: PlayerObject): void => eventListener.onGameStartListener(byPlayer);
+    room.onGameStart = (byPlayer: PlayerObject): void => eventListener.onGameStartListener(byPlayer, room, playerList);
     room.onGameStop = (byPlayer: PlayerObject): void => eventListener.onGameStopListener(byPlayer, ballKickStack);
     room.onPlayerAdminChange = (changedPlayer: PlayerObject, byPlayer: PlayerObject): void => {}
     room.onPlayerTeamChange = (changedPlayer: PlayerObject, byPlayer: PlayerObject): void => eventListener.onPlayerTeamChangeListener(changedPlayer, byPlayer);

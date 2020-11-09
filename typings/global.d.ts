@@ -6,6 +6,7 @@ declare global {
         // bot
         logQueue: LogMessage[] // for sharing log message
         isStatRecord: boolean // TRUE means that recording stats now
+        isGameNow: boolean // is playing now?
         winStreakCount: number // how many wins straight (streak)
 
         // haxball
