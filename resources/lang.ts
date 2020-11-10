@@ -32,7 +32,7 @@ export const onGamePause = {
 }
 
 export const onGameStart = {
-    startGame: '📢 도전 시작! {redTargetName}님 대 {blueTargetName}님의 경기입니다 !!'
+    startGame: '📢 도전 시작! {redTargetName}님 대 {blueTargetName}님의 경기입니다 !!\n📢 공을 차지 않으면 잠수로 퇴장될 수 있습니다 !'
 }
 
 export const onTeamGoal = {

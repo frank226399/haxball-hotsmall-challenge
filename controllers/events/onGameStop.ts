@@ -13,6 +13,7 @@ export function onGameStopListener(byPlayer: PlayerObject | null, ballKickStack:
     window.isGameNow = false; // mod switching
 
     ballKickStack.clear(); // clear the ball kick stack.
+    window.afkDetector.tickCounter = 0; // reset counter
     
     var currentPlayersCount: number = roomPlayersNumberCheck(); // get how many players last
 
