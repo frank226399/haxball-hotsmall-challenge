@@ -12,4 +12,5 @@ export interface GameRule {
         teamLock: boolean; // limit moving teams by self
     }
     defaultMap: string; // default stadium data for the game.
+    readyMap: string; // for ready stadium data for the game.
 }

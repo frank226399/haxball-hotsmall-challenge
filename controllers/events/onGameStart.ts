@@ -8,7 +8,7 @@ import { onGameStart } from "../../resources/lang";
 
 const logger: Logger = Logger.getInstance();
 
-export function onGameStartListener(byPlayer: PlayerObject | null, room:any, playerList: any): void {
+export function onGameStartListener(byPlayer: PlayerObject | null): void {
     // mod switching
     window.isGameNow = true;
 
@@ -20,26 +20,29 @@ export function onGameStartListener(byPlayer: PlayerObject | null, room:any, pla
     }
 
     if (window.isStatRecord == true) { // only when stats recording mode
-        var redPlayer: PlayerObject = room.getPlayerList().filter((player: PlayerObject) => player.team == 1); // get red team
-        var bluePlayer: PlayerObject = room.getPlayerList().filter((player: PlayerObject) => player.team == 2); // get blue team
-
+        //var redPlayer: PlayerObject[] = window.room.getPlayerList().filter((player: PlayerObject) => player.team == 1); // get red team
+        //var bluePlayer: PlayerObject[] = window.room.getPlayerList().filter((player: PlayerObject) => player.team == 2); // get blue team
+        var gamePlayers: PlayerObject[] = window.room.getPlayerList().filter((player: PlayerObject) => player.team != 0); // except Spectators players
+        var redPlayer: PlayerObject[] = gamePlayers.filter((player: PlayerObject) => player.team == 1); // except non Red players
+        var bluePlayer: PlayerObject[] = gamePlayers.filter((player: PlayerObject) => player.team == 2); // except non Blue players
+        
         // total game counting stats update
-        playerList.get(redPlayer.id).stats.totals++;
-        playerList.get(bluePlayer.id).stats.totals++;
+        window.playerList.get(redPlayer[0].id).stats.totals++; 
+        window.playerList.get(bluePlayer[0].id).stats.totals++;
 
-        setPlayerData(playerList.get(redPlayer.id));
-        setPlayerData(playerList.get(bluePlayer.id));
+        setPlayerData(window.playerList.get(redPlayer[0].id));
+        setPlayerData(window.playerList.get(bluePlayer[0].id));
 
         //set placeholder
         var placeholder = {
-            redTargetID: redPlayer.id
-            ,redTargetName: redPlayer.name
-            ,blueTargetID: bluePlayer.id
-            ,blueTargetName: bluePlayer.name
+            redTargetID: redPlayer[0].id
+            ,redTargetName: redPlayer[0].name
+            ,blueTargetID: bluePlayer[0].id
+            ,blueTargetName: bluePlayer[0].name
         }
 
         //message to game room
-        room.sendAnnouncement(Tst.maketext(onGameStart.startGame, placeholder), null, 0x00FF00, "normal", 0);
+        window.room.sendAnnouncement(Tst.maketext(onGameStart.startGame, placeholder), null, 0x00FF00, "normal", 0);
 
         //log it
         logger.i(`${placeholder.redTargetName}#${placeholder.redTargetID} and ${placeholder.blueTargetName}#${placeholder.blueTargetID}has participated this challenge.`);

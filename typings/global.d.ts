@@ -9,7 +9,10 @@ declare global {
         isGameNow: boolean // is playing now?
         winStreakCount: number // how many wins straight (streak)
 
+        playerList: Map // playerList:Player[] is an Map object. // playerList.get(player.id).name; : usage for playerList
+
         // haxball
+        room: any // room container
         HBInit(config: RoomConfig): any
         onHBLoaded(): void
     }

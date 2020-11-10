@@ -4,13 +4,16 @@ import { Logger } from "../Logger";
 import { gameRule } from "../../models/gamerules/onebyone.rule"
 import * as Tst from "../Translator";
 import { onPlayerLeave } from "../../resources/lang";
+import { setPlayerData } from "../Storage";
 
 const logger: Logger = Logger.getInstance();
 
-export function onPlayerLeaveListener(room: any, playerList: any, player: PlayerObject): void {
+export function onPlayerLeaveListener(player: PlayerObject): void {
+    var isWillBeGameStop: boolean = false; //flag for game stop
+
     logger.i(`${player.name}#${player.id} has left.`); //logging
 
-    if(playerList.has(player.id) == false) { // if the player wasn't registered in playerList (like banned player...)
+    if(window.playerList.has(player.id) == false) { // if the player wasn't registered in playerList (like banned player...)
             return; // exit this event
     }
 
@@ -19,26 +22,61 @@ export function onPlayerLeaveListener(room: any, playerList: any, player: Player
         targetID: player.id
         ,targetName: player.name
         ,targetNameOld: player.name
-        ,targetStatsTotal: playerList.get(player.id).stats.totals
-        ,targetStatsWins: playerList.get(player.id).stats.wins
-        ,targetStatsStreaks: playerList.get(player.id).stats.streaks
-        ,targetStatsGoals: playerList.get(player.id).stats.goals
-        ,targetStatsOgs: playerList.get(player.id).stats.ogs
-        ,targetStatsLosepoints: playerList.get(player.id).stats.losePoints
+        ,targetStatsTotal: window.playerList.get(player.id).stats.totals
+        ,targetStatsWins: window.playerList.get(player.id).stats.wins
+        ,targetStatsStreaks: window.playerList.get(player.id).stats.streaks
+        ,targetStatsGoals: window.playerList.get(player.id).stats.goals
+        ,targetStatsOgs: window.playerList.get(player.id).stats.ogs
+        ,targetStatsLosepoints: window.playerList.get(player.id).stats.losePoints
+    }
+
+    // check game mode 
+    if(window.isStatRecord == true && window.isGameNow == true) { // if the game was on play situation
+        if(player.team != 0) { // when he who left is not spec team
+            //get who last
+            var lastPlayer: PlayerObject[] = window.room.getPlayerList().filter((surviveplayer: PlayerObject) => surviveplayer.team != 0 &&surviveplayer.team != player.team);
+            
+            //regard as win
+            if(lastPlayer[0].team == 1) {
+                window.winStreakCount++;
+
+            } else if(lastPlayer[0].team == 2) {
+                window.winStreakCount = 1;
+            }
+            logger.i(`Other last player finally win because ${player.name}#${player.id} has left.`); //logging
+            window.room.sendAnnouncement(Tst.maketext(onPlayerLeave.giveupGame, placeholder), null, 0x00FF00, "normal", 0); // announce who left gave up
+            
+            window.playerList.get(lastPlayer[0].id).stats.wins++; // records win
+            setPlayerData(window.playerList.get(lastPlayer[0].id));
+
+            isWillBeGameStop = true;
+            window.room.setPlayerTeam(lastPlayer[0].id, 1) // set last player's team to red
+            
+        }
     }
 
     // check number of players joined and change game mode
-    if (roomPlayersNumberCheck(room) >= gameRule.requisite.minimumPlayers) {
+    var currentPlayersCount: number = roomPlayersNumberCheck();
+    if (currentPlayersCount >= gameRule.requisite.minimumPlayers) {
         if(window.isStatRecord == false) {
-            room.sendAnnouncement(Tst.maketext(onPlayerLeave.startRecord, placeholder), null, 0x00FF00, "normal", 0);
+            window.room.sendAnnouncement(Tst.maketext(onPlayerLeave.startRecord, placeholder), null, 0x00FF00, "normal", 0);
             window.isStatRecord = true;
         }
     } else {
         if(window.isStatRecord == true) {
-            room.sendAnnouncement(Tst.maketext(onPlayerLeave.stopRecord, placeholder), null, 0x00FF00, "normal", 0);
+            window.room.sendAnnouncement(Tst.maketext(onPlayerLeave.stopRecord, placeholder), null, 0x00FF00, "normal", 0);
             window.isStatRecord = false;
         }
     }
 
-    playerList.delete(player.id); // delete from playerlist
+    if( currentPlayersCount == 0 ) { // if no one last
+        isWillBeGameStop = true;
+    }
+
+    setPlayerData(window.playerList.get(player.id)); // save
+    window.playerList.delete(player.id); // delete from playerlist
+
+    if( isWillBeGameStop == true ) {
+        window.room.stopGame();
+    }
 }

@@ -1,5 +1,6 @@
 import { GameRule } from "../GameRule";
 import * as gbhotsmall from "../../resources/stadiums/gbhotsmall.hbs";
+import * as hotsmallready from "../../resources/stadiums/ready.hbs";
 
 export var gameRule: GameRule = {
     ruleName: "onebyone",
@@ -13,5 +14,6 @@ export var gameRule: GameRule = {
         scoreLimit: 3,
         teamLock: true
     },
-    defaultMap: gbhotsmall.stadiumText
+    defaultMap: gbhotsmall.stadiumText,
+    readyMap: hotsmallready.stadiumText
 }
