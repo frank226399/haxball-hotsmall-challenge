@@ -75,6 +75,10 @@ export function onTeamVictoryListener(scores: ScoresObject): void {
 
                 // update winning streak count
                 window.playerList.get(redPlayer[0].id).stats.streaks = window.winStreakCount;
+                if(window.winStreakCount >= window.playerList.get(redPlayer[0].id).stats.bestrecord) {
+                    // if this player made his/her best record
+                    window.playerList.get(redPlayer[0].id).stats.bestrecord = window.winStreakCount; // set new record
+                }
             }
             if(winTeamFlag == 2) { // if Blue wins
                 window.winStreakCount = 1;

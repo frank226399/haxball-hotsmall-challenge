@@ -28,6 +28,7 @@ export function onPlayerLeaveListener(player: PlayerObject): void {
         ,targetStatsGoals: window.playerList.get(player.id).stats.goals
         ,targetStatsOgs: window.playerList.get(player.id).stats.ogs
         ,targetStatsLosepoints: window.playerList.get(player.id).stats.losePoints
+        ,targetStatsBestrecord: window.playerList.get(player.id).stats.bestrecord
     }
 
     // check game mode 

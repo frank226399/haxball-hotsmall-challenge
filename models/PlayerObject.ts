@@ -40,6 +40,7 @@ export interface PlayerStats {
     goals: number; // not contains OGs.
     ogs: number; // it means 'own goal' (in Korean, '자책골')
     losePoints: number; // it means the points this player lost (in Korean, '실점')
+    bestrecord: number; // Best record of wins straight
 }
 
 export interface PlayerStorage {
@@ -54,4 +55,5 @@ export interface PlayerStorage {
     goals: number; // not contains OGs.
     ogs: number; // it means 'own goal' (in Korean, '자책골')
     losePoints: number; // it means the points this player lost (in Korean, '실점')
+    bestrecord: number; // Best record of wins straight
 }

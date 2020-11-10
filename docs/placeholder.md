@@ -22,6 +22,8 @@ Usage sample : `'Welcome, {playerName}!'`
 
 `targetStatsLosepoints` : count of points the player lose.
 
+`targetStatsBestrecord` : count of best winning record the player made
+
 ### onGameStart
 `redTargetID` : numberic ID of red team player
 `redTargetName` : name of red team player

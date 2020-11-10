@@ -21,6 +21,7 @@ export function onPlayerJoinListener(player: PlayerObject): void {
         ,targetStatsGoals: 0
         ,targetStatsOgs: 0
         ,targetStatsLosepoints: 0
+        ,targetStatsBestrecord: 0
     }
     // logging into console
     logger.i(`${player.name}#${player.id} has joined. CONN(${player.conn}),AUTH(${player.auth})`);
@@ -47,7 +48,8 @@ export function onPlayerJoinListener(player: PlayerObject): void {
                 streaks: loadedData.streaks,
                 goals: loadedData.goals,
                 ogs: loadedData.ogs,
-                losePoints: loadedData.losePoints
+                losePoints: loadedData.losePoints,
+                bestrecord: loadedData.bestrecord
             }));
 
             //update placeholder
@@ -57,6 +59,7 @@ export function onPlayerJoinListener(player: PlayerObject): void {
             placeholder.targetStatsGoals = loadedData.goals;
             placeholder.targetStatsOgs = loadedData.ogs;
             placeholder.targetStatsLosepoints = loadedData.losePoints;
+            placeholder.targetStatsBestrecord = loadedData.bestrecord
 
             if (player.name != loadedData.name) {
                 // if this player changed his/her name
@@ -77,7 +80,8 @@ export function onPlayerJoinListener(player: PlayerObject): void {
             streaks: 0,
             goals: 0,
             ogs: 0,
-            losePoints: 0
+            losePoints: 0,
+            bestrecord: 0
         }));
     }
 

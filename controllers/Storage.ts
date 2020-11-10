@@ -24,6 +24,7 @@ export function setPlayerData(player: Player): void {
         goals: player.stats.goals, // not contains OGs.
         ogs: player.stats.ogs, // it means 'own goal' (in Korean, '자책골')
         losePoints: player.stats.losePoints, // it means the points this player lost (in Korean, '실점')
+        bestrecord: player.stats.bestrecord // best record of win straight(streek)
     }
     localStorage.setItem(player.auth, JSON.stringify(playerData)); // convert object to json for store in localStorage // for decode: JSON.parse
 }
