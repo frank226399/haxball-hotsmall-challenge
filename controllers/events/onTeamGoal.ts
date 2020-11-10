@@ -24,6 +24,7 @@ export function onTeamGoalListener(team: number, ballKickStack: KickStack): void
     }
     // get who made this goal from ballKickStack and clear it
     var touchPlayer: number | undefined = ballKickStack.pop();
+    window.afkDetector.tickCounter = 0; // reset counter
     ballKickStack.clear();
 
     if(touchPlayer === undefined) {

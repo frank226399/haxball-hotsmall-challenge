@@ -17,6 +17,7 @@ export function onTeamVictoryListener(scores: ScoresObject): void {
         ,blueScore: scores.blue
         ,streakWinCount: window.winStreakCount
     }  
+    window.afkDetector.tickCounter = 0; // reset counter
     if (window.isStatRecord == true) { // only when stats recording mode
         var winTeamFlag: number;
 

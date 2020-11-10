@@ -9,6 +9,7 @@ import { onGameStart } from "../../resources/lang";
 const logger: Logger = Logger.getInstance();
 
 export function onGameStartListener(byPlayer: PlayerObject | null): void {
+    window.afkDetector.tickCounter = 0; // reset counter
     // mod switching
     window.isGameNow = true;
     window.afkDetector.teamPicker = 1; //red turn first
