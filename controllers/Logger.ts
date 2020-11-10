@@ -7,6 +7,9 @@ export class Logger {
     // written in Singleton Pattern
     // If the bot created Logger object once, never create ever until the bot instance dead. 
     private static instance: Logger = new Logger();
+
+    private Logger() { } // not use
+    
     public static getInstance(): Logger {
         if (this.instance == null) {
             this.instance = new Logger();
@@ -21,12 +24,6 @@ export class Logger {
     private pop(): LogMessage | undefined {
         return window.logQueue.pop();
     }
-
-    /*
-    public c(msg: string): void { // for common info log
-        this.push({type: 2, context: msg});
-    }
-    */
 
     public i(msg: string): void { // for common info log
         this.push({type: 2, context: msg});
