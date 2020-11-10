@@ -29,6 +29,11 @@ If you got the token, you have to launch the application and input your room's c
 
 Then, you can launch your own game room.
 
+## How to Backup
+You have to make and keep a copy of `.node-persist` directory to preserve important player data.
+
+And you can also check the log in `.logs` directory. These data will be kept for 30 days.
+
 ## Other Projects
 [Haxbotron](https://github.com/dapucita/haxbotron) GUI-based bot application
 

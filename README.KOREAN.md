@@ -27,7 +27,12 @@ npm start
 ## 사용하는 방법
 방을 열기 위해서는 `headless token key`라는 토큰 키가 필요합니다. [여기서](https://www.haxball.com/headlesstoken) 키를 얻을 수 있습니다.
 
-토큰 키를 얻은 후, 봇을 실행하고 키를 입력하면 방을 열 수 있습니다.
+토큰 키를 얻은 후, 봇을 실행하고 설정을 진행하면 방을 열 수 있습니다.
+
+## 백업하는 방법
+플레이어 데이터를 보존하려면 `.node-persist` 폴더를 따로 복사하여 보관하세요.
+
+또한 봇이 생성하는 로그 파일들은 `.logs` 폴더에서 30일간 유지됩니다.
 
 ## Other Projects
 [Haxbotron](https://github.com/dapucita/haxbotron) GUI-based bot application
