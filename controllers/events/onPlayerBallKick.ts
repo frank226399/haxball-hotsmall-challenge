@@ -6,11 +6,15 @@ export function onPlayerBallKickListener(player: PlayerObject, ballKickStack: Ki
 
     switch(window.afkDetector.teamPicker) {
         case 1: { // turn for red kicks the ball
-            window.afkDetector.redActivity = true;
+            if(player.team == 1) {
+                window.afkDetector.redActivity = true;
+            }
             break;
         }
         case 2: { // turn for blue kicks the ball
-            window.afkDetector.blueActivity = true;
+            if(player.team == 2) {
+                window.afkDetector.blueActivity = true;
+            }
             break;
         }
     }

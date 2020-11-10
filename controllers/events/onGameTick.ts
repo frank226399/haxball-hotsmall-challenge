@@ -1,5 +1,4 @@
 import { PlayerObject } from "../../models/PlayerObject";
-import * as Tst from "../Translator";
 import { onGameTick } from "../../resources/lang";
 
 export function onGameTickListener(): void { //this listner will be called 60 times per 1 second.

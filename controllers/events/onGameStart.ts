@@ -12,6 +12,8 @@ export function onGameStartListener(byPlayer: PlayerObject | null): void {
     // mod switching
     window.isGameNow = true;
     window.afkDetector.teamPicker = 1; //red turn first
+    window.afkDetector.redActivity = false; // init
+    window.afkDetector.blueActivity = false;
 
     // logging
     if(byPlayer !== null) {
