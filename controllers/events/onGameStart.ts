@@ -11,6 +11,7 @@ const logger: Logger = Logger.getInstance();
 export function onGameStartListener(byPlayer: PlayerObject | null): void {
     // mod switching
     window.isGameNow = true;
+    window.afkDetector.teamPicker = 1; //red turn first
 
     // logging
     if(byPlayer !== null) {
@@ -42,9 +43,11 @@ export function onGameStartListener(byPlayer: PlayerObject | null): void {
         }
 
         //message to game room
-        window.room.sendAnnouncement(Tst.maketext(onGameStart.startGame, placeholder), null, 0x00FF00, "normal", 0);
+        window.room.sendAnnouncement(Tst.maketext(onGameStart.startGame, placeholder), null, 0x00FF00, "normal", 2);
 
         //log it
         logger.i(`${placeholder.redTargetName}#${placeholder.redTargetID} and ${placeholder.blueTargetName}#${placeholder.blueTargetID}has participated this challenge.`);
     }
+
+    window.room.pauseGame(true); // pause (and will call onGamePause event)
 }

@@ -18,6 +18,13 @@ window.isStatRecord = false; // TRUE means that recording stats now.
 window.isGameNow = false; // TRUE means that player are playing the game
 window.winStreakCount = 0; // default value is 0
 
+window.afkDetector = { //values for detecting afk players
+    tickCounter: 0,
+    teamPicker: 0, // default value is 0
+    redActivity: false,
+    blueActivity: false
+}
+
 const botRoomConfig: RoomConfig = JSON.parse(getCookieFromHeadless('botConfig'));
 
 /* logger.c("====");
@@ -52,11 +59,11 @@ function initialiseRoom(): void {
     window.room.onPlayerAdminChange = (changedPlayer: PlayerObject, byPlayer: PlayerObject): void => {}
     window.room.onPlayerTeamChange = (changedPlayer: PlayerObject, byPlayer: PlayerObject): void => eventListener.onPlayerTeamChangeListener(changedPlayer, byPlayer);
     window.room.onPlayerKicked = (kickedPlayer: PlayerObject, reason: string, ban: boolean, byPlayer: PlayerObject): void => {}
-    window.room.onGameTick = (): void => {}
-    window.room.onGamePause = (byPlayer: PlayerObject): void => {}
+    window.room.onGameTick = (): void => eventListener.onGameTickListener();
+    window.room.onGamePause = (byPlayer: PlayerObject): void => eventListener.onGamePauseListener(byPlayer);
     window.room.onGameUnpause = (byPlayer: PlayerObject): void => {}
-    window.room.onPositionReset = (): void => {}
-    window.room.onPlayerActivity = (player: PlayerObject): void => {}
+    window.room.onPositionsReset = (): void => eventListener.onPositionsResetListener();
+    window.room.onPlayerActivity = (player: PlayerObject): void => eventListener.onPlayerActivityListener(player);
     window.room.onStadiumChange = (newStadiumName: string, byPlayer: PlayerObject): void => eventListener.onStadiumChangeListner(newStadiumName, byPlayer);
     window.room.onRoomLink = (url: string): void => eventListener.onRoomLinkListener(url);
     window.room.onKickRateLimitSet = (min: number, rate: number, burst: number, byPlayer: PlayerObject): void => {}

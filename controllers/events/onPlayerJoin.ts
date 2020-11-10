@@ -66,7 +66,7 @@ export function onPlayerJoinListener(player: PlayerObject): void {
                 logger.i(`${player.name}#${player.id} has changed his name from ${loadedData.name}. CONN(${player.conn}),AUTH(${player.auth})`); // log it
             }
 
-            window.room.sendAnnouncement(Tst.maketext(onPlayerJoin.resetWinStreak, placeholder), null, 0x00FF00, "normal", 0);
+            window.room.sendAnnouncement(Tst.maketext(onPlayerJoin.resetWinStreak, placeholder), player.id, 0x00FF00, "normal", 2); 
         }
     } else {
         // if new player

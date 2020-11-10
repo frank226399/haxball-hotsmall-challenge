@@ -22,8 +22,17 @@ export const onPlayerLeave = {
     ,giveupGame: '📢 {targetName}#{targetID}님이 기권하여 대신 남은 사람이 승리합니다.'
 }
 
+export const onGameTick = {
+    kickAfkPlayer: '🚫 잠수'
+    ,warningAfkPlayer: '📢 공을 차지 않으면 잠수로 퇴장될 수 있습니다 !'
+}
+
+export const onGamePause = {
+    readyForStart: '📢 잠시 후 게임이 시작됩니다. 준비하세요!'
+}
+
 export const onGameStart = {
-    startGame: '📢 도전 시작! @{redTargetName}님 대 @{blueTargetName}의 경기입니다 !!'
+    startGame: '📢 도전 시작! {redTargetName}님 대 {blueTargetName}님의 경기입니다 !!'
 }
 
 export const onTeamGoal = {

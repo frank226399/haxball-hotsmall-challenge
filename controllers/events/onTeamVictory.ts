@@ -70,7 +70,7 @@ export function onTeamVictoryListener(scores: ScoresObject): void {
                 window.room.setPlayerTeam(bluePlayer[0].id, 0); // blue loser move to spec team!
 
                 placeholder.streakWinCount = window.winStreakCount; // placeholder update
-                window.room.sendAnnouncement(Tst.maketext(onTeamVictory.burning, placeholder), null, 0x00FF00, "normal", 0); // announce winning streak
+                window.room.sendAnnouncement(Tst.maketext(onTeamVictory.burning, placeholder), null, 0x00FF00, "normal", 2); // announce winning streak
 
                 // update winning streak count
                 window.playerList.get(redPlayer[0].id).stats.streaks = window.winStreakCount;
@@ -83,7 +83,7 @@ export function onTeamVictoryListener(scores: ScoresObject): void {
         }
 
         placeholder.streakWinCount = window.winStreakCount; // placeholder update
-        window.room.sendAnnouncement(Tst.maketext(onTeamVictory.victory, placeholder), null, 0x00FF00, "normal", 0); // announce who win
+        window.room.sendAnnouncement(Tst.maketext(onTeamVictory.victory, placeholder), null, 0x00FF00, "normal", 1); // announce who win
 
         //data save
         setPlayerData(window.playerList.get(redPlayer[0].id));

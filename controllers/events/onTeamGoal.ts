@@ -8,6 +8,20 @@ import { setPlayerData } from "../../controllers/Storage";
 const logger: Logger = Logger.getInstance();
 
 export function onTeamGoalListener(team: number, ballKickStack: KickStack): void {
+    switch(team) {
+        case 1: { // when red goals
+            window.afkDetector.teamPicker = 2; // now blue'sturn
+            break;
+        }
+        case 2: { // when blue goals
+            window.afkDetector.teamPicker = 1; // now red'sturn
+            break;
+        }
+        default: {
+            window.afkDetector.teamPicker = 0; // default value
+            break;
+        }
+    }
     // get who made this goal from ballKickStack and clear it
     var touchPlayer: number | undefined = ballKickStack.pop();
     ballKickStack.clear();
@@ -52,7 +66,7 @@ export function onTeamGoalListener(team: number, ballKickStack: KickStack): void
             });
 
             // send message for room when goal
-            window.room.sendAnnouncement(Tst.maketext(onTeamGoal.goal, placeholder), null, 0x00FF00, "normal", 0);
+            window.room.sendAnnouncement(Tst.maketext(onTeamGoal.goal, placeholder), null, 0x00FF00, "normal", 1);
 
         } else { // if the goal is OG
             logger.i(`${placeholder.targetName}#${placeholder.targetID} made an OG. Team ${teamName} got a score.`); //logging
@@ -60,7 +74,7 @@ export function onTeamGoalListener(team: number, ballKickStack: KickStack): void
             setPlayerData(window.playerList.get(touchPlayer));
 
             // send message for room when OG
-            window.room.sendAnnouncement(Tst.maketext(onTeamGoal.og, placeholder), null, 0x00FF00, "normal", 0);
+            window.room.sendAnnouncement(Tst.maketext(onTeamGoal.og, placeholder), null, 0x00FF00, "normal", 1);
         }
     }
 }

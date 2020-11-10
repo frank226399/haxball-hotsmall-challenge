@@ -44,7 +44,7 @@ export function onPlayerLeaveListener(player: PlayerObject): void {
                 window.winStreakCount = 1;
             }
             logger.i(`Other last player finally win because ${player.name}#${player.id} has left.`); //logging
-            window.room.sendAnnouncement(Tst.maketext(onPlayerLeave.giveupGame, placeholder), null, 0x00FF00, "normal", 0); // announce who left gave up
+            window.room.sendAnnouncement(Tst.maketext(onPlayerLeave.giveupGame, placeholder), null, 0x00FF00, "normal", 1); // announce who left gave up
             
             window.playerList.get(lastPlayer[0].id).stats.wins++; // records win
             setPlayerData(window.playerList.get(lastPlayer[0].id));
