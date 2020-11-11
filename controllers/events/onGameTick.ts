@@ -1,5 +1,5 @@
 import { PlayerObject } from "../../models/PlayerObject";
-import { onGameTick } from "../../resources/lang";
+import { command, commontexts, onGameTick } from "../../resources/lang";
 
 export function onGameTickListener(): void { //this listner will be called 60 times per 1 second.
     window.afkDetector.tickCounter++;
@@ -20,6 +20,10 @@ export function onGameTickListener(): void { //this listner will be called 60 ti
                 }
                 break;
             }
+        }
+
+        if(Math.random() < 0.25) {
+            window.room.sendAnnouncement(commontexts.advertise, null, 0x777777, "normal", 0); // advertisement
         }
 
         window.afkDetector.tickCounter = 0; // reset counter
