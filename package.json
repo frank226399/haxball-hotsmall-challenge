@@ -1,6 +1,6 @@
 {
   "name": "haxball-hotsmall-challenge",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Haxball bot for power HotSmall Challenge.",
   "main": "index.js",
   "scripts": {
