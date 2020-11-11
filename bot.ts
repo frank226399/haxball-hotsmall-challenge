@@ -51,7 +51,7 @@ function initialiseRoom(): void {
     window.room.onPlayerJoin = (player: PlayerObject): void => eventListener.onPlayerJoinListener(player);
     window.room.onPlayerLeave = (player: PlayerObject): void => eventListener.onPlayerLeaveListener(player);
     window.room.onTeamVictory = (scores: ScoresObject): void => eventListener.onTeamVictoryListener(scores);
-    window.room.onPlayerChat = (player: PlayerObject, message: String): boolean => eventListener.onPlayerChatListener(player, message);
+    window.room.onPlayerChat = (player: PlayerObject, message: string): boolean => eventListener.onPlayerChatListener(player, message);
     window.room.onPlayerBallKick = (player: PlayerObject): void => eventListener.onPlayerBallKickListener(player, ballKickStack);
     window.room.onTeamGoal = (team: number): void => eventListener.onTeamGoalListener(team, ballKickStack);
     window.room.onGameStart = (byPlayer: PlayerObject): void => eventListener.onGameStartListener(byPlayer);
